@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'optparse'
+
+# コマンドラインから引数を受け取る
+parameter = ARGV.getopts("y:m:")
+
+# 受け取った引数のキーの値がnilなら、今年か今月で上書きする
+case
+when parameter["y"] == nil && parameter["m"] == nil
+  parameter["y"] = Date.today.year
+  parameter["m"] = Date.today.month
+when parameter["y"] != nil && parameter["m"] == nil
+  parameter["m"] = Date.today.month
+when parameter["y"] == nil && parameter["m"] != nil
+  parameter["y"] = Date.today.year
+end
+
+# 日付を求める
+first_date = Date.new(parameter["y"].to_i, parameter["m"].to_i, 1)
+last_date = Date.new(parameter["y"].to_i, parameter["m"].to_i, -1)
+
+# 日付から月と西暦を取得する
+month = first_date.month
+year = first_date.year
+
+# 日付から月初と月末を取得する
+first_day = first_date.day
+last_day = last_date.day
+
+# 日付から月初の曜日を取得する
+wday = first_date.wday
+
+# 月と西暦を中央揃えで表示する
+puts "#{month}月 #{year}".center(20)
+
+# 曜日を表示する
+puts ["日","月","火","水","木","金","土"].join(" ")
+
+# カレンダー1周目の空白の曜日を表示する
+print "   " * wday
+
+# 月初から月末までを表示する
+(first_day..last_day).each do |day|
+  if wday != 7
+    print day.to_s.rjust(2) + " "
+    wday += 1
+  else
+    puts
+    # 土曜日（wday=7）で日付表示を折り返すためにwdayを初期化する
+    wday = 0
+  end
+end
