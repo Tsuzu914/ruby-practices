@@ -43,12 +43,13 @@ print "   " * wday
 
 # 月初から月末までを表示する
 (first_day..last_day).each do |day|
-  if wday != 7
+  if wday != 6
     print day.to_s.rjust(2) + " "
     wday += 1
   else
+    print day.to_s.rjust(2) + " "
     puts
-    # 土曜日（wday=7）で日付表示を折り返すためにwdayを初期化する
+    # 土曜日（wdayが6のとき）で日付表示を折り返すためにwdayを初期化する
     wday = 0
   end
 end
