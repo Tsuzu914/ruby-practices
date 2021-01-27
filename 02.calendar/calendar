@@ -25,10 +25,6 @@ last_date = Date.new(parameter["y"].to_i, parameter["m"].to_i, -1)
 month = first_date.month
 year = first_date.year
 
-# 日付から月初と月末を取得する
-first_day = first_date.day
-last_day = last_date.day
-
 # 日付から月初の曜日を取得する
 wday = first_date.wday
 
@@ -42,14 +38,8 @@ puts ["日","月","火","水","木","金","土"].join(" ")
 print "   " * wday
 
 # 月初から月末までを表示する
-(first_day..last_day).each do |day|
-  if wday != 6
-    print day.to_s.rjust(2) + " "
-    wday += 1
-  else
-    print day.to_s.rjust(2) + " "
-    puts
-    # 土曜日（wdayが6のとき）で日付表示を折り返すためにwdayを初期化する
-    wday = 0
-  end
+(first_date..last_date).each do |date|
+  print date.day.to_s.rjust(2) + " "
+  # 土曜日（wdayが6のとき）で日付を折り返す
+  puts if date.wday == 6
 end
